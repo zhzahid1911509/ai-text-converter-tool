@@ -1,0 +1,905 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Convert AI-generated text from ChatGPT, Gemini, Claude, DeepSeek and more into perfectly formatted PDF and DOCX documents with diagrams, code and tables."
+    />
+    <meta name="google-adsense-account" content="ca-pub-9558919340491649" />
+    <title>
+      AI Text Converter Pro — Transform AI Responses into Perfect Documents
+    </title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+Bengali:wght@400;500;600;700&family=Hind+Siliguri:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Syntax highlighting theme -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css"
+    />
+    <!-- Math typesetting -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- App styles -->
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- ===================== NAVBAR ===================== -->
+    <nav class="navbar">
+      <a href="#top" class="nav-logo">
+        <svg viewBox="0 0 36 36" fill="none" aria-hidden="true">
+          <rect
+            x="3"
+            y="2"
+            width="19"
+            height="25"
+            rx="3.5"
+            fill="url(#lg1)"
+            opacity=".75"
+          />
+          <rect x="12" y="8" width="21" height="26" rx="3.5" fill="url(#lg2)" />
+          <path
+            d="M17 16h11M17 21h9M17 26h6"
+            stroke="#fff"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
+          <path
+            d="M8.5 20.5 4 25l4.5 4.5"
+            stroke="url(#lg1)"
+            stroke-width="2.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <defs>
+            <linearGradient id="lg1" x1="3" y1="2" x2="22" y2="27">
+              <stop stop-color="#6366f1" />
+              <stop offset="1" stop-color="#8b5cf6" />
+            </linearGradient>
+            <linearGradient id="lg2" x1="12" y1="8" x2="33" y2="34">
+              <stop stop-color="#818cf8" />
+              <stop offset="1" stop-color="#a78bfa" />
+            </linearGradient>
+          </defs>
+        </svg>
+        <span class="nav-logo-text"
+          ><span class="grad">AI Text Converter</span> Pro</span
+        >
+      </a>
+
+      <span class="nav-tagline"
+        >Transform AI Responses into Perfect Documents</span
+      >
+
+      <div class="nav-right">
+        <button
+          class="icon-btn ghost"
+          id="shortcutBtn"
+          data-tooltip="Keyboard shortcuts"
+          aria-label="Keyboard shortcuts"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <rect x="2" y="6" width="20" height="12" rx="2" />
+            <path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M8 14h8" />
+          </svg>
+        </button>
+        <div
+          class="theme-toggle"
+          id="themeToggle"
+          role="button"
+          aria-label="Toggle dark mode"
+          tabindex="0"
+        >
+          <span class="theme-knob"
+            ><svg id="themeIcon" viewBox="0 0 24 24"></svg
+          ></span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ===================== HERO ===================== -->
+    <header class="hero" id="top">
+      <div class="hero-bg" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </div>
+      <div class="hero-content">
+        <div class="hero-pill">
+          <span class="dot"></span> Supports Markdown • Mermaid Diagrams • LaTeX
+          • Tables • 30+ Code Languages
+        </div>
+        <h1>Transform AI Text Into<br />Professional Documents</h1>
+        <p>
+          Paste any AI-generated response from ChatGPT, Gemini, Claude,
+          DeepSeek, Perplexity or Copilot. Our engine auto-detects the format,
+          repairs broken markdown, renders real flowcharts &amp; diagrams, and
+          exports a beautifully formatted PDF or DOCX.
+        </p>
+        <div class="hero-buttons">
+          <a href="#converter" class="btn btn-primary">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M12 5v14M5 12l7 7 7-7" />
+            </svg>
+            Start Converting
+          </a>
+          <a href="#features" class="btn btn-secondary">See How It Works</a>
+        </div>
+      </div>
+    </header>
+
+    <!-- ===================== CONVERTER ===================== -->
+    <main class="converter-section" id="converter">
+      <div class="section-head">
+        <h2>Paste &amp; Convert</h2>
+        <p>Drop in your AI response — we handle the rest</p>
+      </div>
+
+      <!-- Detection bar -->
+      <div class="detect-bar" id="detectBar">
+        <div class="detect-title">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M12 2a10 10 0 1 0 10 10" />
+            <path d="M12 6v6l4 2" />
+          </svg>
+          <span>Format Intelligence</span>
+        </div>
+        <div class="detect-chips" id="detectChips">
+          <span class="chip muted">Awaiting input…</span>
+        </div>
+      </div>
+
+      <div class="converter-grid" id="converterGrid">
+        <!-- ============ INPUT PANEL ============ -->
+        <section class="panel" id="inputPanel">
+          <div class="panel-header">
+            <div class="panel-header-left">
+              <span class="panel-label">AI Text Input</span>
+              <select
+                class="mini-select"
+                id="sourceSelect"
+                aria-label="Source platform"
+              >
+                <option value="auto">Auto-Detect</option>
+                <option value="chatgpt">ChatGPT</option>
+                <option value="gemini">Gemini</option>
+                <option value="claude">Claude</option>
+                <option value="deepseek">DeepSeek</option>
+                <option value="perplexity">Perplexity</option>
+                <option value="copilot">Copilot</option>
+                <option value="grok">Grok</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="panel-actions">
+              <button
+                class="icon-btn"
+                id="pasteBtn"
+                data-tooltip="Paste from clipboard"
+                aria-label="Paste"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"
+                  />
+                  <rect x="8" y="2" width="8" height="4" rx="1" />
+                </svg>
+              </button>
+              <button
+                class="icon-btn"
+                id="uploadBtn"
+                data-tooltip="Upload .txt / .md"
+                aria-label="Upload file"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <path d="M17 8l-5-5-5 5M12 3v12" />
+                </svg>
+              </button>
+              <button
+                class="icon-btn"
+                id="clearBtn"
+                data-tooltip="Clear all"
+                aria-label="Clear"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <polyline points="3 6 5 6 21 6" />
+                  <path
+                    d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+                  />
+                  <line x1="10" y1="11" x2="10" y2="17" />
+                  <line x1="14" y1="11" x2="14" y2="17" />
+                </svg>
+              </button>
+              <button
+                class="icon-btn fs-btn"
+                data-fullscreen="inputPanel"
+                data-tooltip="Fullscreen (F)"
+                aria-label="Fullscreen"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M16 21h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="textarea-wrapper">
+            <textarea
+              id="inputText"
+              spellcheck="false"
+              placeholder="# Paste your AI response here
+
+Everything is auto-detected:
+
+- **Bold**, *italic*, ~~strikethrough~~, `inline code`
+- Fenced code blocks in 30+ languages
+- Markdown & ASCII tables
+- Blockquotes, nested lists, links
+- LaTeX math:  $E = mc^2$
+- Mermaid diagrams:
+
+```mermaid
+flowchart LR
+  A[Start] --> B{Decision}
+  B -->|Yes| C[Do it]
+  B -->|No| D[Skip]
+```
+
+Even plain arrow chains like:  Input -> Process -> Output
+are converted into real flowcharts.
+
+Tip: drag & drop a .txt or .md file anywhere here."
+            ></textarea>
+            <div class="drop-overlay" id="dropOverlay">
+              <div>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                >
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <path d="M17 8l-5-5-5 5M12 3v12" />
+                </svg>
+                <p>
+                  Drop your <strong>.txt</strong> or <strong>.md</strong> file
+                </p>
+              </div>
+            </div>
+            <input
+              type="file"
+              id="fileInput"
+              accept=".txt,.md,.markdown,.text"
+              hidden
+            />
+          </div>
+
+          <div class="panel-footbar">
+            <div class="stats">
+              <span id="wordCount">0 words</span>
+              <span class="sep">•</span>
+              <span id="charCount">0 characters</span>
+              <span class="sep">•</span>
+              <span id="readTime">0 min read</span>
+            </div>
+            <button class="ghost-btn" id="sampleBtn">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+              </svg>
+              Load Sample
+            </button>
+          </div>
+        </section>
+
+        <!-- ============ PREVIEW PANEL ============ -->
+        <section class="panel" id="previewPanel">
+          <div class="panel-header">
+            <div class="panel-header-left">
+              <span class="panel-label">Live Preview</span>
+              <span class="panel-badge">Real-time</span>
+            </div>
+            <div class="panel-actions">
+              <button
+                class="icon-btn"
+                id="zoomOutBtn"
+                data-tooltip="Zoom out"
+                aria-label="Zoom out"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="11" cy="11" r="8" />
+                  <path d="m21 21-4.3-4.3M8 11h6" />
+                </svg>
+              </button>
+              <button
+                class="icon-btn"
+                id="zoomInBtn"
+                data-tooltip="Zoom in"
+                aria-label="Zoom in"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="11" cy="11" r="8" />
+                  <path d="m21 21-4.3-4.3M11 8v6M8 11h6" />
+                </svg>
+              </button>
+              <button
+                class="icon-btn"
+                id="printBtn"
+                data-tooltip="Print preview"
+                aria-label="Print"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <polyline points="6 9 6 2 18 2 18 9" />
+                  <path
+                    d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"
+                  />
+                  <rect x="6" y="14" width="12" height="8" />
+                </svg>
+              </button>
+              <button
+                class="icon-btn fs-btn"
+                data-fullscreen="previewPanel"
+                data-tooltip="Fullscreen (F)"
+                aria-label="Fullscreen"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M16 21h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="preview-content" id="previewContent"></div>
+          <div class="panel-footbar">
+            <div class="stats"><span id="previewStats">Ready</span></div>
+            <div class="stats"><span id="zoomLabel">100%</span></div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Split/fullscreen workspace control -->
+      <div class="workspace-controls">
+        <button class="ghost-btn" id="workspaceFsBtn">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M16 21h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"
+            />
+          </svg>
+          Fullscreen Workspace
+        </button>
+        <span class="hint"
+          >Press <kbd>Esc</kbd> to exit • <kbd>F</kbd> toggles focused
+          panel</span
+        >
+      </div>
+    </main>
+
+    <!-- ===================== EXPORT OPTIONS ===================== -->
+    <section class="export-section">
+      <button class="options-toggle" id="optionsToggle" aria-expanded="false">
+        <svg
+          class="gear"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <circle cx="12" cy="12" r="3" />
+          <path
+            d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"
+          />
+        </svg>
+        <span>Document Options</span>
+        <svg
+          class="caret"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <polyline points="6 9 12 15 18 9" />
+        </svg>
+      </button>
+
+      <div class="options-panel" id="optionsPanel">
+        <div class="options-grid">
+          <div class="opt">
+            <label for="docTitle">Document Title</label
+            ><input type="text" id="docTitle" placeholder="Auto-detected" />
+          </div>
+          <div class="opt">
+            <label for="docAuthor">Author</label
+            ><input type="text" id="docAuthor" placeholder="Optional" />
+          </div>
+          <div class="opt">
+            <label for="docSubject">Subject</label
+            ><input type="text" id="docSubject" placeholder="Optional" />
+          </div>
+          <div class="opt">
+            <label for="docDate">Date</label><input type="date" id="docDate" />
+          </div>
+          <div class="opt">
+            <label for="pageSize">Page Size</label>
+            <select id="pageSize">
+              <option value="a4" selected>A4</option>
+              <option value="letter">Letter</option>
+              <option value="legal">Legal</option>
+            </select>
+          </div>
+          <div class="opt">
+            <label for="fontFamily">Font</label>
+            <select id="fontFamily">
+              <option value="sans" selected>
+                Inter / Universal Sans (Bangla/English)
+              </option>
+              <option value="bengali">Noto Sans Bengali / বাংলা</option>
+              <option value="times">Times New Roman / Serif</option>
+              <option value="courier">Courier New / Monospace</option>
+              <option value="georgia">Georgia / Elegant</option>
+            </select>
+          </div>
+          <div class="opt">
+            <label for="fontSize">Font Size</label>
+            <select id="fontSize">
+              <option value="10">10 pt</option>
+              <option value="11">11 pt</option>
+              <option value="12" selected>12 pt</option>
+              <option value="14">14 pt</option>
+            </select>
+          </div>
+          <div class="opt">
+            <label for="lineSpacing">Line Spacing</label>
+            <select id="lineSpacing">
+              <option value="1">1.0</option>
+              <option value="1.15">1.15</option>
+              <option value="1.5" selected>1.5</option>
+              <option value="2">2.0</option>
+            </select>
+          </div>
+          <div class="opt">
+            <label for="margins">Margins</label>
+            <select id="margins">
+              <option value="72" selected>Normal (1")</option>
+              <option value="36">Narrow (0.5")</option>
+              <option value="108">Wide (1.5")</option>
+            </select>
+          </div>
+          <div class="opt">
+            <label for="theme">Document Accent</label>
+            <select id="accentChoice">
+              <option value="indigo" selected>Indigo</option>
+              <option value="blue">Blue</option>
+              <option value="emerald">Emerald</option>
+              <option value="slate">Slate</option>
+              <option value="rose">Rose</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="toggle-grid">
+          <label class="toggle-row"
+            ><span>Page numbers</span
+            ><span class="switch active" data-option="pageNumbers"><i></i></span
+          ></label>
+          <label class="toggle-row"
+            ><span>Header with title</span
+            ><span class="switch active" data-option="headerTitle"><i></i></span
+          ></label>
+          <label class="toggle-row"
+            ><span>Footer with date</span
+            ><span class="switch active" data-option="footerDate"><i></i></span
+          ></label>
+          <label class="toggle-row"
+            ><span>Cover page</span
+            ><span class="switch" data-option="coverPage"><i></i></span
+          ></label>
+          <label class="toggle-row"
+            ><span>Table of contents</span
+            ><span class="switch" data-option="toc"><i></i></span
+          ></label>
+          <label class="toggle-row"
+            ><span>Render diagrams as images</span
+            ><span class="switch active" data-option="renderDiagrams"
+              ><i></i></span
+          ></label>
+          <label class="toggle-row"
+            ><span>Keep code block styling</span
+            ><span class="switch active" data-option="styledCode"><i></i></span
+          ></label>
+          <label class="toggle-row"
+            ><span>Auto-repair broken markdown</span
+            ><span class="switch active" data-option="autoRepair"><i></i></span
+          ></label>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== EXPORT BUTTONS ===================== -->
+    <section class="export-buttons">
+      <button class="export-btn pdf" id="downloadPDF">
+        <span class="ico"
+          ><svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+            />
+            <polyline points="14 2 14 8 20 8" />
+            <path d="M9 15h6M9 11h6" /></svg
+        ></span>
+        <span class="spinner"></span>
+        <span class="txt">Download PDF</span>
+      </button>
+      <button class="export-btn docx" id="downloadDOCX">
+        <span class="ico"
+          ><svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+            />
+            <polyline points="14 2 14 8 20 8" />
+            <path d="m8 13 1.5 5L11 14l1.5 4L14 13" /></svg
+        ></span>
+        <span class="spinner"></span>
+        <span class="txt">Download DOCX</span>
+      </button>
+    </section>
+
+    <section class="copy-buttons">
+      <button class="copy-btn" id="copyRichText">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <rect x="9" y="9" width="13" height="13" rx="2" />
+          <path
+            d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+          /></svg
+        >Copy Rich Text
+      </button>
+      <button class="copy-btn" id="copyMarkdown">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="M4 4h16v16H4z" />
+          <path d="M7 15V9l3 3 3-3v6M17 9v6" /></svg
+        >Copy Markdown
+      </button>
+      <button class="copy-btn" id="copyHTML">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <polyline points="16 18 22 12 16 6" />
+          <polyline points="8 6 2 12 8 18" /></svg
+        >Copy HTML
+      </button>
+      <button class="copy-btn" id="downloadMD">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+          <path d="M7 10l5 5 5-5M12 15V3" /></svg
+        >Save .md
+      </button>
+    </section>
+
+    <!-- ===================== FEATURES ===================== -->
+    <section class="features-section" id="features">
+      <div class="section-head">
+        <h2>How It Works</h2>
+        <p>A complete pipeline built for messy, real-world AI output</p>
+      </div>
+      <div class="features-grid">
+        <article class="feature-card">
+          <div class="f-icon">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="11" cy="11" r="8" />
+              <path d="m21 21-4.3-4.3M11 8v6M8 11h6" />
+            </svg>
+          </div>
+          <h3>Format Intelligence</h3>
+          <p>
+            A multi-pass analyzer fingerprints the source platform, then detects
+            markdown, HTML, LaTeX, ASCII tables, unfenced code and lost list
+            markers — even in plain text.
+          </p>
+        </article>
+        <article class="feature-card">
+          <div class="f-icon">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <rect x="3" y="3" width="7" height="7" rx="1.5" />
+              <rect x="14" y="14" width="7" height="7" rx="1.5" />
+              <path d="M10 6.5h4a3 3 0 0 1 3 3V14" />
+            </svg>
+          </div>
+          <h3>Real Diagrams</h3>
+          <p>
+            Mermaid flowcharts, sequence, class, state, ER, gantt, pie and
+            mindmaps render as true vector visuals — and are embedded as crisp
+            images in PDF &amp; DOCX.
+          </p>
+        </article>
+        <article class="feature-card">
+          <div class="f-icon">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M12 20h9" />
+              <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4z" />
+            </svg>
+          </div>
+          <h3>Auto-Repair</h3>
+          <p>
+            Strips “Copy code” artifacts, smart quotes, zero-width characters
+            and reasoning blocks, then rebuilds heading levels, list markers and
+            code fences.
+          </p>
+        </article>
+        <article class="feature-card">
+          <div class="f-icon">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <polyline points="16 18 22 12 16 6" />
+              <polyline points="8 6 2 12 8 18" />
+              <line x1="14" y1="4" x2="10" y2="20" />
+            </svg>
+          </div>
+          <h3>30+ Languages</h3>
+          <p>
+            Syntax highlighting for Python, JS/TS, Java, C/C++, C#, Go, Rust,
+            SQL, Bash, YAML, JSON and more — with language auto-guessing for
+            unlabeled blocks.
+          </p>
+        </article>
+        <article class="feature-card">
+          <div class="f-icon">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <rect x="3" y="3" width="18" height="18" rx="2" />
+              <path d="M3 9h18M3 15h18M9 3v18M15 3v18" />
+            </svg>
+          </div>
+          <h3>True Tables</h3>
+          <p>
+            Markdown, HTML, CSV, TSV, pipe, fixed-width, ASCII and Unicode grid
+            tables become native styled tables with alignment and page-break
+            awareness.
+          </p>
+        </article>
+        <article class="feature-card">
+          <div class="f-icon">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M16 21h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"
+              />
+            </svg>
+          </div>
+          <h3>Focus Mode</h3>
+          <p>
+            Expand the editor or the preview to full screen, zoom the preview,
+            and work distraction-free with a single keystroke.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===================== FOOTER ===================== -->
+    <footer class="footer">
+      <div class="footer-links">
+        <a href="#">GitHub</a><a href="#">About</a><a href="#">Privacy</a
+        ><a href="#converter">Converter</a>
+      </div>
+      <p>Built with ❤️ for the AI community — © 2025 AI Text Converter Pro</p>
+      <p class="small">
+        All processing happens locally in your browser. Nothing is uploaded.
+      </p>
+    </footer>
+
+    <!-- ===================== SHORTCUTS MODAL ===================== -->
+    <div class="modal-backdrop" id="shortcutModal" hidden>
+      <div
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Keyboard shortcuts"
+      >
+        <div class="modal-head">
+          <h3>Keyboard Shortcuts</h3>
+          <button class="icon-btn" id="closeModal" aria-label="Close">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M18 6 6 18M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <ul class="shortcut-list">
+          <li>
+            <span>Generate PDF</span><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd
+              >P</kbd
+            >
+          </li>
+          <li>
+            <span>Generate DOCX</span><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd
+              >D</kbd
+            >
+          </li>
+          <li>
+            <span>Toggle theme</span><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd
+              >L</kbd
+            >
+          </li>
+          <li><span>Fullscreen focused panel</span><kbd>F</kbd></li>
+          <li>
+            <span>Fullscreen workspace</span
+            ><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>F</kbd>
+          </li>
+          <li>
+            <span>Load sample text</span><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd
+              >S</kbd
+            >
+          </li>
+          <li>
+            <span>Clear input</span><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd
+              >X</kbd
+            >
+          </li>
+          <li><span>Exit fullscreen</span><kbd>Esc</kbd></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- ===================== LIBRARIES ===================== -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/rust.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/dart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/dockerfile.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/lua.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/r.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/scala.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/turndown@7.1.2/dist/turndown.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
+
+    <!-- App logic -->
+    <script src="script.js"></script>
+  </body>
+</html>
